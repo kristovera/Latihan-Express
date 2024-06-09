@@ -6,9 +6,11 @@ const {
   productControllerUpdate,
   productControllerDelete,
 } = require("./controllers");
+
+const { validationMiddleware } = require("../utils/middlewares");
 const {
-  productValidationDetail,
-  productSanitizeDetail,
+  productValidationCreate,
+  productValidationUpdate,
 } = require("./validations");
 
 const productRouter = express.Router();
@@ -16,13 +18,17 @@ const productRouter = express.Router();
 const PATH_PRODUCT = "/products";
 
 productRouter.get("/", productControllerList);
-productRouter.get(
-  "/:id",
-  [productValidationDetail, productSanitizeDetail],
-  productControllerDetail
+productRouter.get("/:id", productControllerDetail);
+productRouter.post(
+  "/",
+  [validationMiddleware(productValidationCreate)],
+  productControllerCreate
 );
-productRouter.post("/", productControllerCreate);
-productRouter.put("/:id", productControllerUpdate);
+productRouter.put(
+  "/:id",
+  [validationMiddleware(productValidationUpdate)],
+  productControllerUpdate
+);
 productRouter.delete("/:id", productControllerDelete);
 
 module.exports = {
