@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const connectDB = () => {
   mongoose
-    .connect(`mongodb://0.0.0.0:27017/data`)
+    .connect(`mongodb://0.0.0.0:27017/training_nodejs_21`)
     .then(() => {
       console.log("Database connected");
     })
